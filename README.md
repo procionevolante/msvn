@@ -19,12 +19,11 @@ Features
 --------
 
 Listed from more basic to more complex:
-* all commands which on git are filtered trough a pager get filtered trough
-  `less`
-* `blame` output includes line numbers (and is paged, duh)
+* pipe output of many commands to `less -F`, like on git
+* include line numbers in `blame` output (and use a pager, duh)
 * colored `diff` output using the [`bat`](https://github.com/sharkdp/bat) pager
 * new command `dst`|`dstat`: diff with stats similar to `git diff --stat`
-  using `diffstat`
+  using [`diffstat`](https://invisible-island.net/diffstat/)
 * new command `ddi`|`ddiff`: wordwise diff with syntax-highlighting using
   [`delta`](https://github.com/dandavison/delta)
 * new command `sddi`: same as `ddi` but side-by-side
@@ -48,7 +47,8 @@ Listed from more basic to more complex:
 * support for pre-commit hooks similarly to git: place a `pre-commit` executable
   in `.svn/hooks/` in your repo.
   It will be invoked in the current working directory with all arguments
-  following `svn commit` as `argv`.  
+  following `svn commit` as `argv`.
+  If the program returns with an error the commit is aborted.  
   An example `pre-commit` file is provided
 
 Installation
