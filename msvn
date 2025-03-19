@@ -93,7 +93,7 @@ _mysvn_log()
 _mysvn_shortlog()
 {
     shift
-    _mysvn_expandedpath log "$@" | ~/src/utils/svn-wrapper/short-log | less -F
+    _mysvn_expandedpath log "$@" | ~/src/msvn/short-log | less -F
 }
 
 # Commit cmd with pre-commit hook support like in git
@@ -117,7 +117,7 @@ _mysvn_setrootvar()
 
 _svn_completion_lazyload()
 {
-    source ~/src/utils/svn-wrapper/completions.bash && return 124
+    source ~/src/msvn/completions.bash && return 124
 }
 
 _mysvn_print_completions()
