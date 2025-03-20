@@ -16,13 +16,14 @@ _mysvn_reporoot()
 _mysvn_expandedpath()
 {
     # avoid calling _mysvn_reporoot() unnecessarily
+    local args=( "$@" )
     for arg in "$@"; do
         if [[ "$arg" == /* ]]; then
-            svn "${@/#\//$(_mysvn_reporoot)\/}"
-            return $?
+            args=( "${@/#\//$(_mysvn_reporoot)\/}" )
+            break
         fi
     done
-    svn "$@"
+    svn "${args[@]}"
 }
 
 # Colored diff with bat if stdout is a terminal, print function names
