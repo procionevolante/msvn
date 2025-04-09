@@ -11,6 +11,12 @@ _mysvn_reporoot()
     printf '%s' "$root" # don't expand $root if it's a valid format string
 }
 
+# wrapper that calls the "real" svn binary
+_mysvn_exec()
+{
+    svn "$@"
+}
+
 # Expand all arguments starting with a "/" to the repo root, then launch svn
 # Easier than doing "eval `svn sr`" and then run "svn .. $sr ..."
 _mysvn_expandedpath()
@@ -23,7 +29,7 @@ _mysvn_expandedpath()
             break
         fi
     done
-    svn "${args[@]}"
+    _mysvn_exec "${args[@]}"
 }
 
 # Colored diff with bat if stdout is a terminal, print function names
@@ -67,7 +73,7 @@ _mysvn_diffstat()
 # Use pager (-F: quit if stdin fits one screen)
 _mysvn_usepager()
 {
-    svn "$@" | less -F
+    _mysvn_exec "$@" | less -F
 }
 
 # Use pager and include line number in blame
@@ -100,10 +106,10 @@ _mysvn_shortlog()
 # Commit cmd with pre-commit hook support like in git
 _mysvn_commit()
 {
-    local preCommitHook="$(svn info --show-item wc-root)/.svn/hooks/pre-commit"
+    local preCommitHook="$(_mysvn_exec info --show-item wc-root)/.svn/hooks/pre-commit"
     shift
     if [ ! -x "$preCommitHook" ] || "$preCommitHook" "$@"; then
-        svn commit "$@"
+        _mysvn_exec commit "$@"
     else
         echo commit aborted by pre-commit hook >&2
     fi
@@ -155,7 +161,7 @@ mysvn()
         completions) _mysvn_print_completions ;;
 
         # handle other commands using true svn directly
-        *)          svn "$@" ;;
+        *)          _mysvn_exec "$@" ;;
     esac
 }
 
