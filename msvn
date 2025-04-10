@@ -140,6 +140,7 @@ _mysvn_print_completions()
 mysvn()
 {
     case "$1" in
+        blame)      _mysvn_blame "$@" ;;
         cat)        _mysvn_expandedpath "$@" ;;
         commit|ci)  _mysvn_commit "$@" ;;
         copy|cp)    _mysvn_expandedpath "$@" ;;
@@ -148,11 +149,12 @@ mysvn()
         ddiff|ddi)  _mysvn_deltadiff "$@" ;;
         sddi)       _mysvn_2sidedeltadiff "$@" ;;
         dstat|dst)  _mysvn_diffstat "$@" ;;
+        export)     _mysvn_expandedpath "$@" ;;
         help)       _mysvn_usepager "$@" ;;
-        blame)      _mysvn_blame "$@" ;;
         log)        _mysvn_log "$@" ;;
         slog)       _mysvn_shortlog "$@" ;;
         ls)         _mysvn_expandedpath "$@" ;;
+        merge)      _mysvn_expandedpath "$@" ;;
         remove|rm)  _mysvn_expandedpath "$@" ;;
         status|stat|st) _mysvn_usepager "$@" ;;
         switch|sw)  _mysvn_expandedpath "$@" ;;
