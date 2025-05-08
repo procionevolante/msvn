@@ -76,6 +76,30 @@ _mysvn_usepager()
     _mysvn_exec "$@" | less -F
 }
 
+# Use pager and perform path expansion
+_mysvn_expandedpath_pager() {
+    _mysvn_expandedpath "$@" | less -F
+}
+
+# like `cat` but uses `bat` (AKA `batcat`) for syntax highlighting
+_mysvn_bat()
+{
+    local filetype=''
+    shift 1
+    for f in "$@"; do
+        if [[ "$f" == */* ]]; then
+            # remove revision info if specified
+            filetype="${f%@*}"
+            # extract filetype
+            filetype="${filetype##*.}"
+            # remove possible spaces to not fuck up bat call below
+            filetype="-l ${filetype// /}"
+            break
+        fi
+    done
+    _mysvn_expandedpath cat "$@" | bat -p $filetype
+}
+
 # Use pager and include line number in blame
 _mysvn_blame()
 {
@@ -92,7 +116,7 @@ _mysvn_log()
         # svn log --diff -c revNum ~~ git show
         _mysvn_expandedpath log "$@" | bat -p -l diff
     else
-        _mysvn_expandedpath log "$@" | less -F
+        _mysvn_expandedpath_pager log "$@"
     fi
 }
 
@@ -141,7 +165,8 @@ mysvn()
 {
     case "$1" in
         blame)      _mysvn_blame "$@" ;;
-        cat)        _mysvn_expandedpath "$@" ;;
+        cat)        _mysvn_expandedpath_pager "$@";;
+        bat)        _mysvn_bat "$@" ;;
         commit|ci)  _mysvn_commit "$@" ;;
         copy|cp)    _mysvn_expandedpath "$@" ;;
         delete|del) _mysvn_expandedpath "$@" ;;
