@@ -1,6 +1,15 @@
 #!/bin/bash
 
+# this is an example pre-commit hook script
+# to use it, copy it to the .svn/hooks/ dir on your repo and ensure it can be executed
+#
+# This example will abort any commits whose diff contain any "forbidden" word
+
+# list of words that cannot be committed
 blacklist='fixme todo debug'
+
+# redirect stdout to stderr
+exec 1>&2
 
 declare -a filelist
 declare -a changelist
@@ -21,7 +30,7 @@ fi
 
 difflist="$(svn diff -x -U0 "${filelist[@]}" "${changelist[@]}" )"
 if grep -qiE "^\\+.*(${blacklist// /|})" <<< "$difflist"; then
-  echo TODO or FIXME comments found:
+  echo ${blacklist// /, } comments found:
   echo
   grep -iEe "^\\+.*(${blacklist// /|})" -e '^index:' <<< "$difflist" \
     | grep --color=always -ie ${blacklist// / -e } -B 1
