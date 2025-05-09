@@ -21,11 +21,10 @@ Features
 Listed from more basic to more complex:
 * pipe output of many commands to `less -F`, like on git
 * include line numbers in `blame` output (and use a pager, duh)
-* colored `diff` output using the [`bat`](https://github.com/sharkdp/bat) pager
+* new command `bat`: like `svn cat` but with syntax highlighting
+* colored `diff` output
 * new command `dst`|`dstat`: diff with stats similar to `git diff --stat`
-  using [`diffstat`](https://invisible-island.net/diffstat/)
-* new command `ddi`|`ddiff`: wordwise diff with syntax-highlighting using
-  [`delta`](https://github.com/dandavison/delta)
+* new command `ddi`|`ddiff`: wordwise diff with syntax-highlighting
 * new command `sddi`: same as `ddi` but side-by-side
 * new command `slog` (short-log): output similar to `git log --oneline` using
   [`short-log`](short-log)
@@ -59,6 +58,13 @@ Installation
 there: If you use another dir, edit the script to point to the real dir)
 2. Add the `msvn` script to `PATH`.
 3. (optional) alias `msvn` to `svn` in your shell
+
+Dependencies
+------------
+
+* [bat](https://github.com/sharkdp/bat)
+* [diffstat](https://invisible-island.net/diffstat/)
+* [delta](https://github.com/dandavison/delta)
 
 <!--
 vim: tw=80
