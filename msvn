@@ -135,7 +135,13 @@ _mysvn_commit()
     if [ ! -x "$preCommitHook" ] || "$preCommitHook" "$@"; then
         _mysvn_exec commit "$@"
     else
-        echo commit aborted by pre-commit hook >&2
+        echo >&2
+        cat >&2 << 'EOF'
+Commit aborted by pre-commit hook!
+
+To commit anyway, bypass the SVN wrapper:
+$> `which svn` commit ...
+EOF
     fi
 }
 

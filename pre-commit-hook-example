@@ -34,9 +34,6 @@ if grep -qiE "^\\+.*(${blacklist// /|})" <<< "$difflist"; then
   echo
   grep -iEe "^\\+.*(${blacklist// /|})" -e '^index:' <<< "$difflist" \
     | grep --color=always -ie ${blacklist// / -e } -B 1
-  echo
-  echo to commit anyway, bypass the SVN wrapper:
-  echo '$> `which svn` commit ...'
 
   exit 1
 fi
